@@ -8,7 +8,7 @@ const cron = require("cron").CronJob
 //status=0-授業中gpioOff
 //status=1-休時間gpioOn
 let status = 0;
-let pin = 2;
+let pin = 4;
 //すでにセットアップデータがあると死ぬのでtry-catch必須
 try{
   fs.writeFileSync('/sys/class/gpio/export', pin);
