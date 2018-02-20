@@ -9,12 +9,13 @@ const cron = require("cron").CronJob
 //status=1-休時間gpioOn
 let status = 0;
 let pin = 4;
-//すでにセットアップデータがあると死ぬのでtry-catch必須
 try {
-  fs.writeFileSync('/sys/class/gpio/export', pin);
-  fs.writeFileSync('/sys/class/gpio/gpio' + pin + '/direction', 'out');
-} catch (e) {
+  fs.writeFileSync('/sys/class/gpio/unexport', pin); 
+} catch(e){
+console.log("削除データは特になし")
 }
+fs.writeFileSync('/sys/class/gpio/export', pin);
+fs.writeFileSync('/sys/class/gpio/gpio' + pin + '/direction', 'out');
 
 //チャイム鳴らすタイミングで実行する関数
 function chime() {
@@ -24,6 +25,8 @@ function chime() {
   fs.writeFileSync('/sys/class/gpio/gpio' + pin + '/value', status);
 }
 
+console.log("動作確認");
+chime();
 new cron('0 30 9 * * *', function () {
   status = 0;
   chime();
